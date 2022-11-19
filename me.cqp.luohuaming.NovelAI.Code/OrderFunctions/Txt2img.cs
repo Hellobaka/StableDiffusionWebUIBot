@@ -55,7 +55,7 @@ namespace me.cqp.luohuaming.NovelAI.Code.OrderFunctions
             }
             try
             {
-                string prompt = e.Message.Text.Replace(GetOrderStr(), "");
+                string prompt = e.Message.Text.Replace(GetOrderStr(), "").Replace("，", ",");
                 if (AppConfig.UseTranslate)
                 {
                     string translateResult = Translate.CallTranslate(prompt);
