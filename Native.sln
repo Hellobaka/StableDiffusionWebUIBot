@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "me.cqp.luohuaming.NovelAI.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "me.cqp.luohuaming.NovelAI.PublicInfos", "me.cqp.luohuaming.NovelAI.PublicInfos\me.cqp.luohuaming.NovelAI.PublicInfos.csproj", "{9CA41650-71F2-4F0C-9A80-9CDB5A7D593C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "me.cqp.luohuaming.NovelAI.PublicInfosTests", "me.cqp.luohuaming.NovelAI.PublicInfosTests\me.cqp.luohuaming.NovelAI.PublicInfosTests.csproj", "{692ECB6C-8C10-456A-A94E-3D1F2AF9FF13}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,14 @@ Global
 		{9CA41650-71F2-4F0C-9A80-9CDB5A7D593C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9CA41650-71F2-4F0C-9A80-9CDB5A7D593C}.Release|x86.ActiveCfg = Release|Any CPU
 		{9CA41650-71F2-4F0C-9A80-9CDB5A7D593C}.Release|x86.Build.0 = Release|Any CPU
+		{692ECB6C-8C10-456A-A94E-3D1F2AF9FF13}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{692ECB6C-8C10-456A-A94E-3D1F2AF9FF13}.Debug|Any CPU.Build.0 = Debug|x86
+		{692ECB6C-8C10-456A-A94E-3D1F2AF9FF13}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{692ECB6C-8C10-456A-A94E-3D1F2AF9FF13}.Debug|x86.Build.0 = Debug|Any CPU
+		{692ECB6C-8C10-456A-A94E-3D1F2AF9FF13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{692ECB6C-8C10-456A-A94E-3D1F2AF9FF13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{692ECB6C-8C10-456A-A94E-3D1F2AF9FF13}.Release|x86.ActiveCfg = Release|Any CPU
+		{692ECB6C-8C10-456A-A94E-3D1F2AF9FF13}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

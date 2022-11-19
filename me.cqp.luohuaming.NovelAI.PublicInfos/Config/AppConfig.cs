@@ -5,6 +5,8 @@ namespace PublicInfos.Config;
 
 public static class AppConfig
 {
+    public static bool Using { get; set; }
+
     public static bool R18 { get; set; }
 
     public static bool UseTranslate { get; set; }
@@ -36,10 +38,30 @@ public static class AppConfig
     public static int Height { get; set; }
    
     public static int Width { get; set; }
+   
+    public static int Steps { get; set; }
+   
+    public static bool RestoreFaces { get; set; }
     
     public static string SamplingMethod { get; set; }
     
     public static string NegativePrompt { get; set; }
     
     public static string BasePrompt { get; set; }
+
+    public static string CallResponse { get; set; }
+
+    public static string BusyResponse { get; set; }
+
+    public static string NoQuotaResponse { get; set; }
+    
+    public static int Timeout { get; set; }
+    
+    public static string R18PunishResponse { get; set; }
+    
+    public static string Baidu_AppId { get; set; }
+  
+    public static string Baidu_Key { get; set; }
+
+    public static List<long> R18PunishList { get; set; } = new();
 }

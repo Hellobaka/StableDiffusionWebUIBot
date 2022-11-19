@@ -18,8 +18,8 @@ namespace PublicInfos
         /// </summary>
         public static string ConfigFileName = @"conf/Config.json";
 
-        public static object ReadLock { get; set; }
-        public static object WriteLock { get; set; }
+        public static object ReadLock { get; set; } = new object();
+        public static object WriteLock { get; set; } = new object();
 
         /// <summary>
         /// 读取配置
@@ -31,8 +31,6 @@ namespace PublicInfos
         {
             lock (ReadLock)
             {
-                if (Directory.Exists("conf") is false)
-                    Directory.CreateDirectory("conf");
                 if (File.Exists(ConfigFileName) is false)
                     File.WriteAllText(ConfigFileName, "{}");
                 var o = JObject.Parse(File.ReadAllText(ConfigFileName));

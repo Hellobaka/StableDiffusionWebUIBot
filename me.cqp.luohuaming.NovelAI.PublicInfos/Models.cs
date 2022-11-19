@@ -17,5 +17,6 @@ namespace PublicInfos
     {
         public string Result { get; set; }
         public bool IsSuccess { get; set; }
+        public bool R18 { get; set; }
     }
 }

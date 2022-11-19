@@ -6,12 +6,11 @@ namespace PublicInfos.Config;
 
 public class QuotaHistory
 {
-    
     public static int QueryQuota(long group, long qq)
     {
         string date = DateTime.Now.ToString("d");
         string path = Path.Combine(MainSave.AppDirectory, "Quota.json");
-        if (File.Exists(path))
+        if (!File.Exists(path))
         {
             File.WriteAllText(path, "[]");
         }
@@ -36,11 +35,12 @@ public class QuotaHistory
         return AppConfig.MaxPersonQuota;
     }
 
-    public void HandleQuota(long group, long qq, int change)
+    public static int HandleQuota(long group, long qq, int change)
     {
         string date = DateTime.Now.ToString("d");
         string path = Path.Combine(MainSave.AppDirectory, "Quota.json");
-        if (File.Exists(path))
+        int finalQuota = 0;
+        if (!File.Exists(path))
         {
             File.WriteAllText(path, "[]");
         }
@@ -55,13 +55,15 @@ public class QuotaHistory
                 JObject data = (JObject) item["data"];
                 if (data.ContainsKey(date))
                 {
-                    int value = data[date].ToObject<int>() + change;
+                    int value = data[date].ToObject<int>() - change;
                     data[date] = value;
+                    finalQuota = value;
                 }
                 else
                 {
-                    int value = AppConfig.MaxPersonQuota + change;
+                    int value = 0 - change;
                     data.Add(date, value);
+                    finalQuota = value;
                 }
             }
         }
@@ -72,13 +74,15 @@ public class QuotaHistory
             {
                 new JProperty("group", group),
                 new JProperty("qq", qq),
-                new JObject()
+                new JProperty("data", new JObject 
                 {
-                    new JProperty(date, AppConfig.MaxPersonQuota + change)
-                }
+                    new JProperty(date, 0 - change)
+                })
             });
+            finalQuota = 0 - change;
         }
 
         File.WriteAllText(path, json.ToString());
+        return finalQuota;
     }
 }

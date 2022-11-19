@@ -28,9 +28,14 @@ namespace me.cqp.luohuaming.NovelAI.Code.OrderFunctions
             {
                 SendID = e.FromGroup,
             };
+            result.SendObject.Add(sendText);
+            if (AppConfig.Using)
+            {
+                sendText.MsgToSend.Add("当前有任务正在进行，请等待前一任务完成...");
+                return result;
+            }
 
             sendText.MsgToSend.Add("这里输入需要发送的文本");
-            result.SendObject.Add(sendText);
             return result;
         }
 
