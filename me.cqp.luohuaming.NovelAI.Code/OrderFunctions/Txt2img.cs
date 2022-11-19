@@ -58,12 +58,15 @@ namespace me.cqp.luohuaming.NovelAI.Code.OrderFunctions
                 string prompt = e.Message.Text.Replace(GetOrderStr(), "");
                 if (AppConfig.UseTranslate)
                 {
-                    prompt = Translate.CallTranslate(prompt);
-                    if(prompt == "err")
+                    string translateResult = Translate.CallTranslate(prompt);
+                    if(translateResult == "err")
                     {
-                        sendText.MsgToSend.Add("翻译API无效...");
+                        // sendText.MsgToSend.Add("翻译API无效...");
                         MainSave.CQLog.Info("翻译API无效", "请打开配置文件填写相关字段");
-                        return result;
+                    }
+                    else
+                    {
+                        prompt = translateResult;
                     }
                 }
 

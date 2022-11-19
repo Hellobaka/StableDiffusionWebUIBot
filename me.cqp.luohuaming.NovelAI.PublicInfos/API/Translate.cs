@@ -38,6 +38,7 @@ public class Translate
         var json = JObject.Parse(response);
         if (json.ContainsKey("error_code"))
         {
+            MainSave.CQLog.Info("翻译API", response);
             return "err";
         }
         else
