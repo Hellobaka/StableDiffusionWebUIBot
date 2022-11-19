@@ -70,7 +70,7 @@ namespace me.cqp.luohuaming.NovelAI.Code.OrderFunctions
                     }
                 }
 
-                var r = PublicInfos.API.NovelAI.Txt2Img(prompt);
+                var r = PublicInfos.API.NovelAI.Txt2Img(AppConfig.BasePrompt + prompt);
                 if (r.IsSuccess)
                 {
                     string img = r.Result;
