@@ -109,6 +109,7 @@ namespace me.cqp.luohuaming.NovelAI.Code.OrderFunctions
             }
             catch (Exception exc)
             {
+                QuotaHistory.HandleQuota(e.FromGroup, e.FromQQ, 1);
                 sendText.MsgToSend.Add($"绘制失败..., {exc.Message}");
                 MainSave.CQLog.Info("绘制失败", exc.Message + exc.StackTrace);
             }

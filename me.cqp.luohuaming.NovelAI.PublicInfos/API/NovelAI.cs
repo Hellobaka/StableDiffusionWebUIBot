@@ -1,6 +1,7 @@
 ﻿using me.cqp.luohuaming.NovelAI.Tool.Http;
 using Newtonsoft.Json.Linq;
 using PublicInfos.Config;
+using System;
 
 namespace PublicInfos.API;
 
@@ -16,8 +17,10 @@ public class NovelAI
         bool restore_faces, string engine)
     {
         AppConfig.Using = true;
-        APIResult result = new();
-        string body = @"{  
+        try
+        {
+            APIResult result = new();
+            string body = @"{  
         ""enable_hr"": true,
         ""denoising_strength"": 0.7,
         ""prompt"": ""%prompt%"",
@@ -29,34 +32,45 @@ public class NovelAI
         ""negative_prompt"": ""%negative_prompt%"",
         ""sampler_index"": ""%engine%""
     }";
-        body = body.Replace("%prompt%", prompt)
-            .Replace("%negative_prompt%", negative_prompt)
-            .Replace("%steps%", steps.ToString())
-            .Replace("%height%", height.ToString())
-            .Replace("%width%", width.ToString())
-            .Replace("%restore_faces%", restore_faces.ToString().ToLower())
-            .Replace("%engine%", engine);
-        string r = new HttpWebClient(AppConfig.Timeout * 1000).UploadString(AppConfig.APIBaseUrl + "sdapi/v1/txt2img", body);
-        JObject json = JObject.Parse(r);
-        if (json.ContainsKey("images"))
-        {
-            result.IsSuccess = true;
-            result.Result = (json["images"] as JArray)[0].ToString();
+            body = body.Replace("%prompt%", prompt)
+                .Replace("%negative_prompt%", negative_prompt)
+                .Replace("%steps%", steps.ToString())
+                .Replace("%height%", height.ToString())
+                .Replace("%width%", width.ToString())
+                .Replace("%restore_faces%", restore_faces.ToString().ToLower())
+                .Replace("%engine%", engine);
+            string r = new HttpWebClient(AppConfig.Timeout * 1000).UploadString(AppConfig.APIBaseUrl + "sdapi/v1/txt2img", body);
+            JObject json = JObject.Parse(r);
+            if (json.ContainsKey("images"))
+            {
+                result.IsSuccess = true;
+                result.Result = (json["images"] as JArray)[0].ToString();
+            }
+            if (result.Result.Length < 10240)
+            {
+                result.R18 = true;
+            }
+            return result;
         }
-        if(result.Result.Length < 10240)
+        catch (Exception e)
         {
-            result.R18 = true;
+            throw e;
         }
-        AppConfig.Using = false;
-        return result;
+        finally
+        {
+            AppConfig.Using = false;
+        }
     }
 
     public static APIResult Img2Img(string img, string prompt, string negative_prompt, int steps, int height, int width,
         bool restore_faces, string engine)
     {
         AppConfig.Using = true;
-        APIResult result = new();
-        string body = @"{
+        try
+        {
+
+            APIResult result = new();
+            string body = @"{
   ""init_images"": [
     ""%img%""
   ],
@@ -95,27 +109,32 @@ public class NovelAI
   ""sampler_index"": ""%engine%"",
   ""include_init_images"": false
 }";
-        body = body.Replace("%prompt%", prompt)
-            .Replace("%negative_prompt%", negative_prompt)
-            .Replace("%img%", img)
-            .Replace("%steps%", steps.ToString())
-            .Replace("%height%", height.ToString())
-            .Replace("%width%", width.ToString())
-            .Replace("%restore_faces%", restore_faces.ToString().ToLower())
-            .Replace("%engine%", engine);
-        string r = new HttpWebClient(AppConfig.Timeout * 1000).UploadString(AppConfig.APIBaseUrl + "sdapi/v1/img2img", body);
-        JObject json = JObject.Parse(r);
-        if (json.ContainsKey("images"))
-        {
-            result.IsSuccess = true;
-            result.Result = (json["images"] as JArray)[0].ToString();
+            body = body.Replace("%prompt%", prompt)
+                .Replace("%negative_prompt%", negative_prompt)
+                .Replace("%img%", img)
+                .Replace("%steps%", steps.ToString())
+                .Replace("%height%", height.ToString())
+                .Replace("%width%", width.ToString())
+                .Replace("%restore_faces%", restore_faces.ToString().ToLower())
+                .Replace("%engine%", engine);
+            string r = new HttpWebClient(AppConfig.Timeout * 1000).UploadString(AppConfig.APIBaseUrl + "sdapi/v1/img2img", body);
+            JObject json = JObject.Parse(r);
+            if (json.ContainsKey("images"))
+            {
+                result.IsSuccess = true;
+                result.Result = (json["images"] as JArray)[0].ToString();
+            }
+            if (result.Result.Length < 10240)
+            {
+                result.R18 = true;
+            }
+            return result;
         }
-        if (result.Result.Length < 10240)
+        catch (Exception e) { throw e; }
+        finally
         {
-            result.R18 = true;
+            AppConfig.Using = false;
         }
-        AppConfig.Using = false;
 
-        return result;
     }
 }
