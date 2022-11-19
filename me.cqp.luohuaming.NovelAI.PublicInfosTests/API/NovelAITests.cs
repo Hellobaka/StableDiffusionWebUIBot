@@ -22,9 +22,8 @@ namespace PublicInfos.API.Tests
             Event_StartUp s = new Event_StartUp();
             s.InitConfig();
             s.ParseTimeSpan(AppConfig.EnableTimespan);
-            Console.WriteLine(Translate.BaiduTextTranslate("金发天使 头上有光环"));
-            //var r = NovelAI.Txt2Img(AppConfig.BasePrompt + "blonde hair, loli, red eyes, twintail, angel, messy_hair, masterpiece, halo");
-            //File.WriteAllBytes("1.png", Convert.FromBase64String(r.Result));
+            var r = NovelAI.Txt2Img(AppConfig.BasePrompt + "white hair，blue eyes，dog ears，standing split，full body，loli".Replace("，", ","));
+            File.WriteAllBytes("1.png", Convert.FromBase64String(r.Result));
         }
     }
 }
