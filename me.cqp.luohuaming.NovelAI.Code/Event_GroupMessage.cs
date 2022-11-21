@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using me.cqp.luohuaming.NovelAI.Sdk.Cqp.EventArgs;
 using PublicInfos;
+using PublicInfos.Config;
 
 namespace me.cqp.luohuaming.NovelAI.Code
 {
@@ -18,6 +19,20 @@ namespace me.cqp.luohuaming.NovelAI.Code
             };
             try
             {
+                if(AppConfig.WhiteMode)
+                {
+                    if(!AppConfig.WhiteList.Contains(e.FromGroup))
+                    {
+                        return result;
+                    }
+                }
+                else
+                {
+                    if(AppConfig.BlackList.Contains(e.FromGroup))
+                    {
+                        return result;
+                    }
+                }
                 foreach (var item in MainSave.Instances.Where(item => item.Judge(e.Message.Text)))
                 {
                     return item.Progress(e);
