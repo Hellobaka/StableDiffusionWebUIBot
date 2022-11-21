@@ -77,11 +77,14 @@ namespace me.cqp.luohuaming.NovelAI.Code
             AppConfig.BusyResponse = ConfigHelper.GetConfig("BusyResponse", "当前有任务正在进行，请等待前一任务完成...");
             AppConfig.NoQuotaResponse = ConfigHelper.GetConfig("NoQuotaResponse", "调用额度达到上限");
             AppConfig.R18PunishResponse = ConfigHelper.GetConfig("R18PunishResponse", "触发R18审计配置，禁用%time%秒");
+            AppConfig.MaxGroupResponse = ConfigHelper.GetConfig("MaxGroupResponse", "群额度达到上限");
             AppConfig.Baidu_AppId = ConfigHelper.GetConfig("Baidu_AppId", "");
             AppConfig.Baidu_Key = ConfigHelper.GetConfig("Baidu_Key", "");
             
             OrderConfig.Txt2Img = ConfigHelper.GetConfig("Txt2Img", "#作画");
             OrderConfig.Img2Img = ConfigHelper.GetConfig("Img2Img", "#转图");
+
+            QuotaHistory.CreateGroupQuotaDict();
         }
 
         public List<long> ParseConfigList(string s)

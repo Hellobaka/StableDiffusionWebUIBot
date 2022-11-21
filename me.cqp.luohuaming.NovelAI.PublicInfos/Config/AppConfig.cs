@@ -53,6 +53,8 @@ public static class AppConfig
 
     public static string BusyResponse { get; set; }
 
+    public static string MaxGroupResponse { get; set; }
+
     public static string NoQuotaResponse { get; set; }
     
     public static int Timeout { get; set; }

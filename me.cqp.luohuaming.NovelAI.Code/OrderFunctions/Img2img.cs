@@ -77,6 +77,12 @@ namespace me.cqp.luohuaming.NovelAI.Code.OrderFunctions
 
             if(imgBase64 == "")
             {
+                if (QuotaHistory.GroupQuotaDict[e.FromGroup] >= AppConfig.MaxGroupQuota)
+                {
+                    sendText.MsgToSend.Add(AppConfig.MaxGroupResponse);
+                    return result;
+                }
+
                 if (QuotaHistory.QueryQuota(e.FromGroup, e.FromQQ) <= 0)
                 {
                     sendText.MsgToSend.Add(AppConfig.NoQuotaResponse);

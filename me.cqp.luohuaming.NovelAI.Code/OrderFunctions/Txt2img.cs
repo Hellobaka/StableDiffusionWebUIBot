@@ -42,6 +42,11 @@ namespace me.cqp.luohuaming.NovelAI.Code.OrderFunctions
                 sendText.MsgToSend.Add(AppConfig.BusyResponse);
                 return result;
             }
+            if (QuotaHistory.GroupQuotaDict[e.FromGroup] >= AppConfig.MaxGroupQuota)
+            {
+                sendText.MsgToSend.Add(AppConfig.MaxGroupResponse);
+                return result;
+            }
 
             if (QuotaHistory.QueryQuota(e.FromGroup, e.FromQQ) <= 0)
             {
