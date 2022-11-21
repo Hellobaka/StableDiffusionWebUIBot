@@ -22,7 +22,11 @@ namespace me.cqp.luohuaming.NovelAI.Code.OrderFunctions
 
         public string GetOrderStr() => OrderConfig.Img2Img;
 
-        public bool Judge(string destStr) => true;
+        public bool Judge(string destStr)
+        {
+            // 会出现优先级冲突的问题 考虑修改接口添加更多参数判断
+            return true;
+        }
 
         public FunctionResult Progress(CQGroupMessageEventArgs e)
         {
