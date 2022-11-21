@@ -66,4 +66,6 @@ public static class AppConfig
     public static string Baidu_Key { get; set; }
 
     public static List<long> R18PunishList { get; set; } = new();
+
+    public static string WebUIPath { get; set; }
 }

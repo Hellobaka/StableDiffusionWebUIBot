@@ -80,6 +80,7 @@ namespace me.cqp.luohuaming.NovelAI.Code
             AppConfig.MaxGroupResponse = ConfigHelper.GetConfig("MaxGroupResponse", "群额度达到上限");
             AppConfig.Baidu_AppId = ConfigHelper.GetConfig("Baidu_AppId", "");
             AppConfig.Baidu_Key = ConfigHelper.GetConfig("Baidu_Key", "");
+            AppConfig.WebUIPath = ConfigHelper.GetConfig("WebUIPath", "");
             
             OrderConfig.Txt2Img = ConfigHelper.GetConfig("Txt2Img", "#作画");
             OrderConfig.Img2Img = ConfigHelper.GetConfig("Img2Img", "#转图");

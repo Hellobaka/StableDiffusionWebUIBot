@@ -2,6 +2,9 @@
 using Newtonsoft.Json.Linq;
 using PublicInfos.Config;
 using System;
+using System.Diagnostics;
+using System.IO;
+using System.Threading;
 
 namespace PublicInfos.API;
 
@@ -118,5 +121,96 @@ public class NovelAI
             AppConfig.Using = false;
         }
 
+    }
+
+    public static bool ServiceOnline()
+    {
+        try
+        {
+            string url = AppConfig.APIBaseUrl + "";
+            HttpWebClient.Get(url);
+            return true;
+        }
+        catch 
+        {
+            return false;
+        }
+    }
+
+    public static void StartService()
+    {
+        if(ServiceOnline())
+        {
+            MainSave.CQLog.Info("WebUI启动", "已经启动");
+            return;
+        }
+        if(File.Exists(AppConfig.WebUIPath))
+        {
+            Process.Start(AppConfig.WebUIPath);
+            Thread.Sleep(2000);
+
+            int timeout = 5 * 60;
+            for(int i = 0; i < timeout; i++)
+            {
+                if(ServiceOnline() is false && GetServiceProcess() != null)
+                {
+                    Thread.Sleep(1000);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            if(GetServiceProcess() == null)
+            {
+                MainSave.CQLog.Info("WebUI启动", "启动失败，建议手动检查原因");
+                return;
+            }
+            if (ServiceOnline() is false)
+            {
+                MainSave.CQLog.Info("WebUI启动", "启动超时");
+                return;
+            }
+
+
+            MainSave.CQLog.Info("WebUI启动", "启动成功");
+        }
+    }
+
+    public static void StopService()
+    {
+        var process = GetServiceProcess();
+        if(process != null)
+        {
+            process.Kill();
+            MainSave.CQLog.Info("WebUI停止", "停止成功");
+        }
+        else
+        {
+            MainSave.CQLog.Info("WebUI停止", "进程不存在");
+        }
+    }
+
+    private static Process GetServiceProcess()
+    {
+        var ls = Process.GetProcessesByName("python");
+        string basePath = new DirectoryInfo(AppConfig.WebUIPath).Parent.FullName;
+        foreach (var item in ls)
+        {
+            // 可能会出现32位无法访问64位的情况
+            string pyPath = item.MainModule.FileName;
+            if (pyPath.Contains(basePath))
+            {
+               return item;
+            }
+        }
+        return null;
+    }
+
+    public static void RestartService()
+    {
+        StopService();
+        StartService();
     }
 }
