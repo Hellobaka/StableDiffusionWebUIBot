@@ -18,14 +18,13 @@ namespace me.cqp.luohuaming.NovelAI.Code.OrderFunctions
     {
         public bool ImplementFlag { get; set; } = true;
 
-        public Dictionary<(long, long), string> GroupImageList = new();
+        public Dictionary<(long, long), string> GroupImageList { get; set; } = new();
 
         public string GetOrderStr() => OrderConfig.Img2Img;
 
         public bool Judge(string destStr)
         {
-            // 会出现优先级冲突的问题 考虑修改接口添加更多参数判断
-            return true;
+            return destStr.Replace("＃", "#").StartsWith(GetOrderStr()) || destStr.Contains("[CQ:image");
         }
 
         public FunctionResult Progress(CQGroupMessageEventArgs e)
@@ -49,18 +48,8 @@ namespace me.cqp.luohuaming.NovelAI.Code.OrderFunctions
                 {
                     string img = e.CQApi.ReceiveImage(e.Message.Text);
                     imgBase64 = Convert.ToBase64String(File.ReadAllBytes(img));
-                    // GroupImageList.Remove((e.FromGroup, e.FromQQ));
                 }
-            }
-            else
-            {
-                if (e.Message.Text.Replace("＃", "#").StartsWith(GetOrderStr()) is false)
-                {
-                    result.SendFlag = false;
-                    result.Result = false;
-                    return result;
-                }
-            }
+            }           
 
             SendText sendText = new SendText
             {
@@ -79,7 +68,7 @@ namespace me.cqp.luohuaming.NovelAI.Code.OrderFunctions
                 return result;
             }
 
-            if(imgBase64 == "")
+            if (imgBase64 == "")
             {
                 if (QuotaHistory.GroupQuotaDict[e.FromGroup] >= AppConfig.MaxGroupQuota)
                 {
@@ -116,7 +105,7 @@ namespace me.cqp.luohuaming.NovelAI.Code.OrderFunctions
                     }
                 }
 
-                if(imgBase64 == "")// 
+                if (imgBase64 == "")// 
                 {
                     List<CQCode> cqList = CQCode.Parse(e.Message.Text);
                     var imgCQCode = cqList.FirstOrDefault(x => x.IsImageCQCode);
@@ -131,7 +120,7 @@ namespace me.cqp.luohuaming.NovelAI.Code.OrderFunctions
                         imgBase64 = Convert.ToBase64String(File.ReadAllBytes(e.CQApi.ReceiveImage(imgCQCode)));
                     }
                 }
-
+                GroupImageList.Remove((e.FromGroup, e.FromQQ));
                 var r = PublicInfos.API.NovelAI.Img2Img(imgBase64, AppConfig.BasePrompt + prompt);
 
                 if (r.IsSuccess)
